@@ -9,7 +9,6 @@ const userSchema = new Schema({
         requuire: true,
         min: 3,
         max: 16,
-
     },
     lastName: {
         type: String,
@@ -32,23 +31,33 @@ const userSchema = new Schema({
     age: {
         type: Number,
         min: 18,
-    },
-    gender:{
-        type: String,
-        validate(value){
-            if(!["male","female","others"].includes(value)){
-                throw new Error("Invalid gender type");
+        validate(value) {
+            if (value < 18) {
+                res.status(401).send("Invalid age , age must be greater than 17");
             }
-    }
-},
-    skills:{ type: [String],
+        },
     },
-    about:{
-        type:String,
-        default:"lets code together",
+    gender: {
+        type: String,
+        lowercase: true,
+        validate(value) {
+            if (!["male", "female", "others"].includes(value)) {
+                res.status(401).send("Invalid gender type");
+            }
+        },
     },
-},{timestamps: true}
-);
+    photoUrl: {
+        type: String,
+        default: "https://geographyandyou.com/images/user-profile.png",
+    },
+    skills: {
+        type: [String],
+    },
+    about: {
+        type: String,
+        default: "lets code together",
+    },
+}, { timestamps: true });
 
 userSchema.methods.getJWT = async function (){
     const user = this;

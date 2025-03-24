@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/database');
 const User = require('./models/user');
 const cookieParser = require('cookie-parser');
+const cors = require("cors");
 const app = express();
 exports.app = app;
 
@@ -12,6 +13,11 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials:true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -38,7 +44,6 @@ app.delete("/user",async(req,res)=>{
   const userId = req.body.userId;
   try{ 
     const user = await User.findByIdAndDelete(userId);
-    console.log(userId);
     res.send("User deleted successfully");
   }catch(err){
     res.send("Error occured");

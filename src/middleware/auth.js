@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+
 const userAuth = async (req, res, next) => {
     const {token} = req.cookies;
     if (!token) {
-        return res.status(401).send("Access Denied: No Token Provided!");
+        return res.status(401).send("Please login");
     }
     try {
         const verified = jwt.verify(token, "DevMatchSecretKey");

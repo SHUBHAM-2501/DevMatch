@@ -7,7 +7,6 @@ profileRouter.get("/profile",userAuth, async(req,res)=>{
     try{
       const user = req.user;
         res.send(user);
-        console.log(user);
   }catch(err){
     res.send("ERROR :"+err.message);
   }
@@ -16,11 +15,10 @@ profileRouter.get("/profile",userAuth, async(req,res)=>{
 profileRouter.patch("/profile/edit", userAuth, async (req,res)=>{
     try{
         if(!validateProfileEdits(req)){
-            throw new Error ("Invalid edit fields");
+            res.status(401).send("Invalid field to update");
         }
         
         const loggedInUser = req.user;
-        console.log(loggedInUser);
         //res.send("updated  successfully");
 
         Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
@@ -31,7 +29,7 @@ profileRouter.patch("/profile/edit", userAuth, async (req,res)=>{
 
 
     }catch(err){
-        res.send("ERROR :"+err.message);
+      res.status(401).send(err.message);
     }
   });
 
