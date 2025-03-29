@@ -40,7 +40,7 @@ app.patch("/user",async(req,res)=>{
     });
     res.send("User updated successfully");
   }catch(err){
-    res.send("Error occured");
+    res.status(400).send("Error occured");
   }
 })
 
