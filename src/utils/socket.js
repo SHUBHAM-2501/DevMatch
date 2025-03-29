@@ -20,19 +20,16 @@ const initializeSocket = (server) => {
   io.on("connection", (socket) => {
     socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
       const roomId = getSecretRoomId(userId, targetUserId);
-      console.log(firstName + " joined Room : " + roomId);
       socket.join(roomId);
     });
 
     socket.on(
       "sendMessage",
       async ({ firstName, lastName, userId, targetUserId, text }) => {
-        // Save messages to the database
+
         try {
           const roomId = getSecretRoomId(userId, targetUserId);
-          console.log(firstName + " " + text);
 
-          // TODO: Check if userId & targetUserId are friends
 
           let chat = await Chat.findOne({
             participants: { $all: [userId, targetUserId] },
@@ -53,7 +50,7 @@ const initializeSocket = (server) => {
           await chat.save();
           io.to(roomId).emit("messageReceived", { firstName, lastName, text });
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       }
     );

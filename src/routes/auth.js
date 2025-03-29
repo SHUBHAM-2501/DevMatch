@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 authRouter.post("/signUp", async (req, res)=>{
   try{ 
-    validateSignUpData(req); // validateSignUpData function is called here
+    validateSignUpData(req);
 
     const {firstName, lastName, emailId, password} = req.body;
 
@@ -45,10 +45,8 @@ authRouter.post("/login", async (req, res)=>{
         const isValidPassword = await user.validatePassword(password);
         if(isValidPassword){
   
-          //generate the token
           const token = await user.getJWT();
   
-          //store the token in the browser
           res.cookie("token", token);
           res.send(user);
       }else{

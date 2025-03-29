@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/database');
 const User = require('./models/user');
@@ -5,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const app = express();
 const http = require("http");
-// exports.app = app;
 
 const port = 7777;
 
