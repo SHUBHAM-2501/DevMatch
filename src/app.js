@@ -18,7 +18,7 @@ const chatRouter = require("./routes/chat");
 
 
 app.use(cors({
-  origin: "https://dev-match-ui.vercel.app/",
+  origin: "https://dev-match-ui.vercel.app",
   credentials:true,
 }));
 app.use(express.json());
